@@ -43,6 +43,13 @@
         state: absent
         login_unix_socket: /var/lib/mysql/mysql.sock
 
+    - name: allow remote root login
+      community.mysql.mysql_user:
+        name: root
+        password: r00tb33r
+        host_all: '%'
+        login_unix_socket: /var/lib/mysql/mysql.sock
+
     - name: set the password for the root account
       community.mysql.mysql_user:
         name: root
