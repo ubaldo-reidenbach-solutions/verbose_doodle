@@ -30,10 +30,16 @@
         insertafter: 'Require local'
         line: '   Require all granted'
 
+    - name: configure database host
+      ansible.builtin.replace:
+        path: /etc/phpMyAdmin/config.inc.php
+        regexp: 'localhost'
+        replace: 'demo04.ursi.int'
+
     - name: start the apache service
       ansible.builtin.service:
         name: httpd
-        state: started
+        state: restarted
         enabled: true
 
     - name: expose apache ports
