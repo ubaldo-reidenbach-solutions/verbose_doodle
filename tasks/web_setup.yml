@@ -23,6 +23,13 @@
         state: true
         persistent: true
 
+    - name: allow external phpmyadmin access
+      ansible.builtin.lineinfile:
+        path: /etc/httpd/conf.d/phpMyAdmin.conf
+        firstmatch: true
+        insertafter: 'Require Local'
+        line: 'Require all granted'
+
     - name: start the apache service
       ansible.builtin.service:
         name: httpd
