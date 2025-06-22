@@ -47,7 +47,7 @@
       community.mysql.mysql_user:
         name: root
         password: r00tb33r
-        host_all: '%'
+        host: '%'
         login_unix_socket: /var/lib/mysql/mysql.sock
 
     - name: set the password for the root account
