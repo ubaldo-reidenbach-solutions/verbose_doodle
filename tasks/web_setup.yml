@@ -17,17 +17,17 @@
         setype: httpd_sys_rw_content_t
         state: present
 
-    - name: start the apache service
-      ansible.builtin.service:
-        name: httpd
-        state: started
-        enabled: true
-
     - name: allow apache to make external connections in selinux
       ansible.posix.seboolean:
         name: httpd_can_network_connect
         state: true
         persistent: true
+
+    - name: start the apache service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
 
     - name: expose apache ports
       ansible.posix.firewalld:
