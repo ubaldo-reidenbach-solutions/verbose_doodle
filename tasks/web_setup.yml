@@ -27,8 +27,7 @@
       ansible.builtin.lineinfile:
         path: /etc/httpd/conf.d/phpMyAdmin.conf
         firstmatch: true
-        regexp: 'nonexistent asjkdhaskjdh'
-        insertafter: 'Require Local'
+        insertafter: 'Require local'
         line: 'Require all granted'
 
     - name: start the apache service
