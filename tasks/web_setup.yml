@@ -27,6 +27,7 @@
       ansible.builtin.lineinfile:
         path: /etc/httpd/conf.d/phpMyAdmin.conf
         firstmatch: true
+        regexp: 'nonexistent asjkdhaskjdh'
         insertafter: 'Require Local'
         line: 'Require all granted'
 
