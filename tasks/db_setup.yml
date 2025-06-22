@@ -54,6 +54,7 @@
       community.mysql.mysql_user:
         name: root
         password: r00tb33r
+        priv: '*.*:ALL,GRANT'
         host_all: true
         login_unix_socket: /var/lib/mysql/mysql.sock
 
