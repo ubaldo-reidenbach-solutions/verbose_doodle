@@ -3,9 +3,12 @@
 - name: ensure tasks run only on selected os releases
   block:
 
-    - name: install the mariadb server and its prerequisites
+    - name: install the phpmyadmin application and its prerequisites
       ansible.builtin.package:
-        name: phpmyadmin
+        name:
+          - phpmyadmin
+          - httpd
+          - mod_ssl
         state: present
 
   when: ansible_distribution == "RedHat"
