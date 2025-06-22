@@ -30,6 +30,12 @@
         immediate: true
         offline: true
 
+    - name: remove the test database
+      community.mysql.mysql_db:
+        name: test
+        state: absent
+        login_unix_socket: /var/lib/mysql/mysql.sock
+
     - name: remove anonymous accounts
       community.mysql.mysql_user:
         name: ""
