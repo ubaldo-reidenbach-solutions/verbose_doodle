@@ -1,0 +1,13 @@
+---
+
+- name: ensure tasks run only on selected os releases
+  block:
+
+    - name: install the mariadb server and its prerequisites
+      ansible.builtin.package:
+        name: phpmyadmin
+        state: present
+
+  when: ansible_distribution == "RedHat"
+
+...
