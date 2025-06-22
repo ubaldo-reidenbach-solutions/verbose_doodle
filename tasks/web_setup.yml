@@ -11,6 +11,29 @@
           - mod_ssl
         state: present
 
+    - name: start the apache service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: allow apache to make external connections in selinux
+      ansible.posix.seboolean:
+        name: httpd_can_network_connect
+        state: true
+        persistent: true
+
+    - name: expose apache ports
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        state: enabled
+        permanent: true
+        immediate: true
+        offline: true
+      loop:
+        - http
+        - https
+
   when: ansible_distribution == "RedHat"
 
 ...
