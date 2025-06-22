@@ -3,9 +3,11 @@
 - name: ensure tasks run only on selected os releases
   block:
 
-    - name: install the mariadb server
+    - name: install the mariadb server and its prerequisites
       ansible.builtin.package:
-        name: mariadb-server
+        name:
+          - mariadb-server
+          - python3-mysqlclient
         state: present
 
     - name: enable and start the mariadb service
