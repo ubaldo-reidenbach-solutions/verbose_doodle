@@ -11,6 +11,12 @@
           - mod_ssl
         state: present
 
+    - name: allow apache to access the phpmyadmin location
+      community.general.sefcontext:
+        target: '/usr/share/phpMyAdmin(/.*)?'
+        setype: httpd_sys_rw_content_t
+        state: present
+
     - name: start the apache service
       ansible.builtin.service:
         name: httpd
