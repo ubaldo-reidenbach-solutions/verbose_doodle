@@ -32,4 +32,14 @@
 
   delegate_to: localhost
 
+- name: ensure tasks run only on selected os releases
+  block:
+
+    - name: install nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+  when: ansible_distribution == "RedHat"
+
 ...
