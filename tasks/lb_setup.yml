@@ -57,6 +57,14 @@
         group: root
         mode: "0600"
 
+    - name: create nginx virtual host directory
+      ansible.builtin.file:
+        path: /etc/nginx/sites-available
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
     - name: create virtual host configuration
       ansible.builtin.copy:
         content: |
