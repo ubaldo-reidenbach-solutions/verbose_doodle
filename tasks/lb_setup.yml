@@ -69,6 +69,7 @@
       ansible.builtin.copy:
         content: |
           upstream phpmyadmin {
+              ip_hash;
               server demo02.ursi.int;
               server demo03.ursi.int;
           }
