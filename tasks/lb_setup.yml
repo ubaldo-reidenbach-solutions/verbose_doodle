@@ -41,6 +41,49 @@
         name: nginx
         state: present
 
+    - name: copy ssl certificate
+      ansible.builtin.copy:
+        src: /tmp/certificate.pem
+        dest: /etc/pki/tls/certs/certificate.pem
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: copy private key
+      ansible.builtin.copy:
+        src: /tmp/private.key
+        dest: /etc/pki/tls/private/private.key
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: create virtual host configuration
+      ansible.builtin.copy:
+        content: |
+          upstream phpmyadmin {
+              server demo02.ursi.int;
+              server demo03.ursi.int;
+          }
+          server {
+              listen 80;
+              listen 443 ssl;
+              server_name demo01.ursi.int;
+              ssl on;
+              ssl_certificate /etc/pki/tls/certs/certificate.pem;
+              ssl_certificate_key /etc/pki/tls/private/private.key;
+              location / {
+                  proxy_pass http://phpmyadmin;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+          }
+        dest: /etc/nginx/sites-available/demo01.ursi.int
+        owner: root
+        group: root
+        mode: "0644"
+
   when: ansible_distribution == "RedHat"
 
 ...
