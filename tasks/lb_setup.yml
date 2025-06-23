@@ -1,0 +1,35 @@
+---
+
+- name: deletegate tasks to the ansible runner
+  block:
+
+    - name: create a private key
+      community.crypto.openssl_privatekey:
+        path: /tmp/private.key
+
+#    - name: create ca certificate
+#      community.crypto.x509_certificate:
+#        path: /tmp/ca.pem
+#        privatekey_path: /tmp/private.key
+#        provider: selfsigned
+
+    - name: create demo csr
+      community.crypto.openssl_csr_pipe:
+        privatekey_path: /tmp/private.key
+        common_name: demo01.ursi.int
+        organization_name: ursolutions
+        subject_alt_name:
+          - "DNS:demo02.ursi.int"
+          - "DNS:demo03.ursi.int"
+      register: csr
+
+    - name: create demo certificate
+      community.crypto.x509_certificate:
+        path: /tmp/certificate.pem
+        csr_content: "{{ csr.csr }}"
+        privatekey_path: /tmp/private.key
+        provider: selfsigned
+
+  delegate_to: localhost
+
+...
