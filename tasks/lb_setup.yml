@@ -58,7 +58,7 @@
         mode: "0600"
 
     - name: create virtual host configuration
-      ansible.builtin.copy:
+      ansible.builtin.c opy:
         content: |
           upstream phpmyadmin {
               ip_hash;
@@ -84,6 +84,29 @@
         owner: root
         group: root
         mode: "0644"
+
+    - name: allow nginx to make external connections in selinux
+      ansible.posix.seboolean:
+        name: httpd_can_network_connect
+        state: true
+        persistent: true
+
+    - name: start the nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+        enabled: true
+
+    - name: expose nginx ports
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        state: enabled
+        permanent: true
+        immediate: true
+        offline: true
+      loop:
+        - http
+        - https
 
   when: ansible_distribution == "RedHat"
 
