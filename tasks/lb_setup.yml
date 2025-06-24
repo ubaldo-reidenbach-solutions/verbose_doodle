@@ -58,7 +58,7 @@
         mode: "0600"
 
     - name: create virtual host configuration
-      ansible.builtin.c opy:
+      ansible.builtin.copy:
         content: |
           upstream phpmyadmin {
               ip_hash;
