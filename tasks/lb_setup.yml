@@ -57,14 +57,6 @@
         group: root
         mode: "0600"
 
-    - name: create nginx virtual host directory
-      ansible.builtin.file:
-        path: /etc/nginx/sites-available
-        state: directory
-        owner: root
-        group: root
-        mode: "0755"
-
     - name: create virtual host configuration
       ansible.builtin.copy:
         content: |
@@ -88,7 +80,7 @@
                   proxy_set_header X-Forwarded-Proto $scheme;
               }
           }
-        dest: /etc/nginx/sites-available/demo01.ursi.int
+        dest: /etc/nginx/conf.d/phpmyadmin.conf
         owner: root
         group: root
         mode: "0644"
